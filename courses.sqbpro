@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="courses.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2196"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="2" parent="0"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="courses" custom_title="0" dock_id="1" table="4,7:maincourses"/><dock_state state="000000ff00000000fd00000001000000020000063c000003d6fc0100000001fb000000160064006f0063006b00420072006f007700730065003101000000000000063c0000012400ffffff000002580000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="courses" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="78"/><column index="2" value="300"/><column index="3" value="73"/><column index="4" value="300"/><column index="5" value="300"/><column index="6" value="241"/><column index="7" value="117"/><column index="8" value="46"/><column index="9" value="300"/><column index="10" value="109"/><column index="11" value="132"/><column index="12" value="300"/><column index="13" value="300"/><column index="14" value="300"/><column index="15" value="85"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="grade_distributions" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="31"/><column index="2" value="80"/><column index="3" value="40"/><column index="4" value="89"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="grade_points" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="40"/><column index="2" value="43"/><column index="3" value="49"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">-- Add UG/PG level column to courses
+ALTER TABLE courses ADD COLUMN level TEXT;
+
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS101';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS105';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS108';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS213';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS213M';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS215';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS217';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS218';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS219';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS224M';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS228';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS230';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS231';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS236';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS240';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS293';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS306';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS310';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS310M';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS317';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS320';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS339';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS347M';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS348';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS355';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS378';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS405';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS409';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS409M';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS416M';
+UPDATE courses SET level = 'UG' WHERE course_code = 'CS433';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6001';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6002';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6003';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6007';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6008';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6009';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS601';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6010';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6011';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6012';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6013';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS602';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS604';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6101';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6102';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6103';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS6104';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS614';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS616';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS618';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS631';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS632';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS663';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS675';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS681';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS683';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS691';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS694';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS699';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS7001';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS713';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS721';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS725';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS728';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS736';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS738';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS740';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS744';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS748';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS752';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS754';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS758';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS761';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS763';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS766';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS767';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS769';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS771';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS773';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS777';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS778';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS781';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS782';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS784';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS786';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS787';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS789';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS790';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS791';
+UPDATE courses SET level = 'PG' WHERE course_code = 'CS794';
+
+CREATE TABLE IF NOT EXISTS grade_points (
+    grade   TEXT PRIMARY KEY,
+    points  REAL,      -- NULL = not counted (audit/incomplete/withdrawn)
+    is_pass INTEGER     -- 1 = pass, 0 = fail, NULL = not applicable
+);
+
+INSERT INTO grade_points (grade, points, is_pass) VALUES
+('AP', 10, 1), ('AA', 10, 1), ('AB', 9, 1), ('BB', 8, 1),
+('BC', 7, 1), ('CC', 6, 1), ('CD', 5, 1), ('DD', 4, 1),
+('FF', 0, 0), ('FR', 0, 0), ('DX', 0, 0),
+('II', NULL, NULL), ('AU', NULL, NULL), ('W', NULL, NULL), ('DR', NULL, NULL),
+('PP', NULL, 1), ('NP', NULL, 0);</sql><current_tab id="0"/></tab_sql></sqlb_project>
