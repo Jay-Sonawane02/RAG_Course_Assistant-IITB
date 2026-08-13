@@ -6,8 +6,11 @@ LLM via native tool calling — built specifically to demonstrate the judgment
 that **structured data (grades) should be queried, not embedded**, while
 **unstructured data (syllabi) should be searched semantically, not filtered**.
 
-**Status: architecture fully finalized and validated. Data layer complete.
-Implementation starts next session.**
+**Status: built, live-tested against the real Claude API, bugs found and
+fixed, ready to deploy.** Full implementation in `course_assistant/`. See
+`ISSUES_AND_FIXES.md` for what broke during real testing and how it was
+diagnosed and fixed — that log is arguably the most interesting artifact in
+this whole project for interview purposes.
 
 ---
 
@@ -17,13 +20,17 @@ This isn't "build a working RAG app" — that's a means, not the goal. The
 real deliverable is a **resume project that demonstrates engineering
 judgment about when *not* to use RAG**, demoable live in an interview.
 
-"Done" concretely means:
-- A Streamlit app you can open and run live, not describe from a screenshot.
-- "Which ML electives are easy to score well in?" → visibly uses *both*
-  tools (vector search for "ML electives," then SQL for grades) before answering.
-- "What are CS725's prerequisites?" → goes straight to SQL, no vector-search detour.
-- Something it can't answer (timetable clashes, missing grade data) → says so
-  honestly instead of inventing an answer.
+"Done" concretely means — **all four now actually confirmed via live testing, not just planned:**
+- A Streamlit app you can open and run live, deployed and shareable, not just describe from a screenshot.
+- "Which ML electives are easy to score well in?" → confirmed to visibly use
+  *both* tools (vector search for "ML electives," then SQL for grades)
+  before answering, with tool-usage badges in the UI showing exactly which
+  fired.
+- "What are CS725's prerequisites?" → confirmed to go straight to SQL, no
+  vector-search detour.
+- Something it can't answer (timetable clashes, missing grade data) →
+  confirmed to say so honestly instead of inventing an answer, tested
+  directly against both cases.
 
 The one-sentence interview pitch this whole project exists to make true:
 *"Most people would dump everything into a vector store. I noticed grade
@@ -197,30 +204,62 @@ should surface rather than guess around:
 
 ---
 
-## 6. Not yet built — resume point for next session
+## 6. Implementation status
 
-- **Embedding script (courses → Chroma index) ← start here next**
-- Tool-execution wrappers implementing the error-handling spec
-- The actual Claude API tool-use loop
-- Streamlit UI shell
+**Built, live-tested, and deployed.** All modules from the architecture
+above exist and run: `db/connection.py`, `embeddings/embedder.py` +
+`embeddings/build_index.py`, `tools/query_database.py` +
+`tools/search_syllabi.py`, `agent/loop.py` + `agent/system_prompt.py`,
+`app.py`. Full file layout and setup instructions in
+`course_assistant/IMPLEMENTATION.md`.
 
-Architecture is fully decided for all of the above — remaining work is
-implementation, not further design. Every open question that had a real
-decision point has been closed and validated (see table below); what's left
-is writing code against a spec that's already been stress-tested.
+Every module was tested two ways:
+1. **In isolation, with mocks**, during initial build (SQL injection
+   attempts, the tool-use control flow, similarity-threshold filtering,
+   etc.) — see `IMPLEMENTATION.md` for the full breakdown of what was
+   verified this way and what genuinely couldn't be (no Hugging Face or
+   live API access in the build sandbox).
+2. **Live, against the real running app and real Claude API** — this is
+   where the actually interesting bugs surfaced, since isolated tests with
+   mocked responses can't catch problems that only show up when a real LLM
+   makes different decisions across repeated identical questions.
 
-| Decision | Status |
-|---|---|
-| Data storage (SQLite: courses + grades) | ✅ Built, populated, validated |
-| Router mechanism | ✅ Native LLM tool calling |
-| Grade tool approach | ✅ Freeform text-to-SQL |
-| Vector store | ✅ Chroma |
-| Embedding model | ✅ sentence-transformers (local, free) |
-| Embedding granularity | ✅ Course-level, title+syllabus concatenated |
-| LLM for the tool loop | ✅ Claude API |
-| Interface | ✅ Streamlit, multi-turn |
-| Tool schemas | ✅ Written, in `router_spec.md` |
-| System prompt | ✅ Written |
-| Error handling | ✅ Designed for both tools |
-| Grade-point mapping | ✅ Verified against IITB's actual rules |
-| UG/PG classification | ✅ Verified against all 91 real course codes |
+**Six real issues were found and fixed via live testing** — full detail,
+root causes, and fixes in `ISSUES_AND_FIXES.md`. Summary:
+
+| # | Issue | Status |
+|---|---|---|
+| 1 | Crash from mismatched file versions after an update | Fixed |
+| 2 | Silent wrong grade-average numbers, inconsistent across identical repeated questions | Fixed, verified across repeats |
+| 3 | Inconsistent table/list formatting across identical questions | Fixed, verified across repeats |
+| 4 | Large ranking queries silently truncated mid-table | Fixed, verified |
+| 5 | Vector search occasionally surfaces topically-adjacent but irrelevant courses | Partially mitigated, documented as a known limitation rather than force-fixed |
+| 6 | Model's own summary text occasionally inconsistent with the data table it just rendered | Not fixed, noted for future work |
+
+**The genuinely interesting pattern**: issues 2, 3, and 4 all traced back
+to the same root cause — leaving something important to the LLM's per-call
+judgment instead of giving it a hard constraint. Issue 2 got fixed with an
+exact query template to copy rather than reconstruct; issues 3 and 4 got
+fixed with explicit rules instead of vague guidance. Issue 5 is the one
+case where a harder constraint (a numeric similarity threshold) would
+likely help more than the soft instruction that was tried — but we
+couldn't reproduce the failure case with debug logging on to get the real
+number needed to set that threshold correctly, so it's left as an honest
+open item rather than a guessed fix. That's a genuinely defensible
+engineering story, not just "I built a RAG app and it worked."
+
+## 7. Deployment
+
+Deployed via Streamlit Community Cloud (free, GitHub-connected). Full
+walkthrough in `course_assistant/DEPLOYMENT.md`, including the two
+deployment-specific code changes that were needed:
+- `config.py` reads the API key via `st.secrets` when running on Community
+  Cloud, falling back to a plain environment variable for local dev.
+- `chroma_store/` (the built vector index) is committed directly to the
+  repo rather than rebuilt on every deploy, since Community Cloud's
+  filesystem resets between deploys and rebuilding would mean re-downloading
+  the embedding model from Hugging Face each time.
+
+Known, accepted deployment limits (free tier): ~1GB RAM, app sleeps after
+12 hours idle (auto-wakes on next visit), only one private app allowed.
+Fine for a portfolio demo; documented rather than worked around.
