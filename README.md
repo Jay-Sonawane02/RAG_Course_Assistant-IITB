@@ -6,8 +6,10 @@ LLM via native tool calling — built specifically to demonstrate the judgment
 that **structured data (grades) should be queried, not embedded**, while
 **unstructured data (syllabi) should be searched semantically, not filtered**.
 
+**Live app: https://rag-course-assistant-iitb.streamlit.app/**
+
 **Status: built, live-tested against the real Claude API, bugs found and
-fixed, ready to deploy.** Full implementation in `course_assistant/`. See
+fixed, deployed and live.** Full implementation in `course_assistant/`. See
 `ISSUES_AND_FIXES.md` for what broke during real testing and how it was
 diagnosed and fixed — that log is arguably the most interesting artifact in
 this whole project for interview purposes.
@@ -250,9 +252,10 @@ engineering story, not just "I built a RAG app and it worked."
 
 ## 7. Deployment
 
-Deployed via Streamlit Community Cloud (free, GitHub-connected). Full
-walkthrough in `course_assistant/DEPLOYMENT.md`, including the two
-deployment-specific code changes that were needed:
+**Live at https://rag-course-assistant-iitb.streamlit.app/** — deployed via
+Streamlit Community Cloud (free, GitHub-connected). Full walkthrough in
+`course_assistant/DEPLOYMENT.md`, including the two deployment-specific
+code changes that were needed:
 - `config.py` reads the API key via `st.secrets` when running on Community
   Cloud, falling back to a plain environment variable for local dev.
 - `chroma_store/` (the built vector index) is committed directly to the

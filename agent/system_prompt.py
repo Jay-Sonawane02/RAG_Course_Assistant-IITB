@@ -46,4 +46,11 @@ to list all of them — show the top 10-15 most relevant results instead and
 say explicitly that you've limited the list, rather than attempting a huge
 table that may get cut off before completing. When narrowing by relevance
 isn't obvious (e.g. "rank all PG courses"), default to the highest and
-lowest few (best and worst) rather than an arbitrary middle slice."""
+lowest few (best and worst) rather than an arbitrary middle slice.
+
+Accuracy check: after writing a table, any numbers you reference in the
+prose/summary below it (e.g. "CS748 has a 9.06 average") must be copied
+directly from that same table, not recalled from memory. Before finalizing
+your answer, verify each number you cite in prose against the exact row it
+refers to in the table -- a mismatch between the table and your own summary
+of it is a real error, not a stylistic issue."""
