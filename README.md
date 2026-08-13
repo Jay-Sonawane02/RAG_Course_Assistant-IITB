@@ -236,13 +236,14 @@ root causes, and fixes in `ISSUES_AND_FIXES.md`. Summary:
 | 3 | Inconsistent table/list formatting across identical questions | Fixed, verified across repeats |
 | 4 | Large ranking queries silently truncated mid-table | Fixed, verified |
 | 5 | Vector search occasionally surfaces topically-adjacent but irrelevant courses | Partially mitigated, documented as a known limitation rather than force-fixed |
-| 6 | Model's own summary text occasionally inconsistent with the data table it just rendered | Not fixed, noted for future work |
+| 6 | Model's own summary text occasionally inconsistent with the data table it just rendered | Fixed, verified across repeats |
 
-**The genuinely interesting pattern**: issues 2, 3, and 4 all traced back
-to the same root cause — leaving something important to the LLM's per-call
-judgment instead of giving it a hard constraint. Issue 2 got fixed with an
-exact query template to copy rather than reconstruct; issues 3 and 4 got
-fixed with explicit rules instead of vague guidance. Issue 5 is the one
+**The genuinely interesting pattern**: issues 2, 3, 4, and 6 all traced
+back to the same root cause — leaving something important to the LLM's
+per-call judgment instead of giving it a hard constraint. Issue 2 got fixed
+with an exact query template to copy rather than reconstruct; issues 3 and
+4 got fixed with explicit rules instead of vague guidance; issue 6 got
+fixed with an explicit self-verification instruction. Issue 5 is the one
 case where a harder constraint (a numeric similarity threshold) would
 likely help more than the soft instruction that was tried — but we
 couldn't reproduce the failure case with debug logging on to get the real

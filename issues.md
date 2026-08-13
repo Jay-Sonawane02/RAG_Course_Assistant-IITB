@@ -162,9 +162,19 @@ rank.
 summary loosely from memory of the full tool result rather than strictly
 cross-checking against the table it just rendered.
 
-**Status:** Not fixed. Noted here so it isn't forgotten — worth watching
-for in future testing, and worth adding explicit "your summary must match
-the table exactly" guidance if it recurs.
+**Fix:** Added an explicit "Accuracy check" instruction to
+`agent/system_prompt.py`: any number cited in prose after a table must be
+copied directly from that table, not recalled from memory, with an
+instruction to verify each cited number against its actual row before
+finalizing the answer.
+
+**Confidence: high — fixed and verified.** Re-ran the same "which ML
+electives" question 3 times on the live deployed app after the fix. All 3
+runs matched ground truth exactly (verified directly against the database)
+and, critically, every prose citation in all 3 runs correctly attributed
+its number to the right course — no repeat of the CS748/CS767 mixup. This
+moved from "not fixed" to "fixed, verified" based on this evidence, not
+just because the instruction was added.
 
 ---
 
@@ -177,14 +187,14 @@ the table exactly" guidance if it recurs.
 | 3 | Inconsistent table/list formatting | Low (cosmetic) | Fixed, verified across repeats |
 | 4 | Silent table truncation on large result sets | Medium (silent incomplete data) | Fixed, verified |
 | 5 | Vector search topical false positives | Medium (occasional wrong inclusions) | Partially mitigated, documented as known limitation |
-| 6 | Inconsistent self-summary text | Low (cosmetic, but confusing) | Not fixed, noted for future work |
+| 6 | Inconsistent self-summary text | Low (cosmetic, but confusing) | Fixed, verified across repeats |
 
-**The pattern across most of these**: problems 2, 3, and 4 all trace back to
-the same root cause — leaving something important to the LLM's per-call
+**The pattern across most of these**: problems 2, 3, 4, and 6 all trace back
+to the same root cause — leaving something important to the LLM's per-call
 judgment without a hard constraint, when what was actually needed was
-either an exact template to follow (problem 2) or an explicit rule instead
-of vague guidance (problems 3 and 4). Problem 5 is the one case where a
-harder constraint (a numeric threshold) would likely help more than the
-soft instruction that was tried, but we didn't have the real data needed to
-set that threshold correctly, so it's left as an honest open item rather
-than a guessed "fix."
+either an exact template to follow (problem 2), an explicit rule instead of
+vague guidance (problems 3 and 4), or an explicit self-check instruction
+(problem 6). Problem 5 is the one case where a harder constraint (a numeric
+threshold) would likely help more than the soft instruction that was
+tried, but we didn't have the real data needed to set that threshold
+correctly, so it's left as an honest open item rather than a guessed "fix."
